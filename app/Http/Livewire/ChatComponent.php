@@ -16,6 +16,15 @@ class ChatComponent extends Component
 
     public $bodyMessage;
 
+    public $users;
+
+    // Se ejecuta cuando se inicializa el componente. Sirve para especificar que la propiedad user se trata de una colección
+
+    public function mount()
+    {
+        $this->users = collect();
+    }
+
     // Oyentes
 
     public function getListeners()
@@ -24,6 +33,12 @@ class ChatComponent extends Component
 
         return [
             "echo-notification:App.Models.User.{$user_id},notification" => 'render',
+            // Para ver que ususario está en el chat
+            "echo-presence:chat.1,here" => 'chatHere',
+            // Para ver usuario(s) que se suman a la sala de chat
+            "echo-presence:chat.1,joining" => 'chatJoining',
+            // Para ver usuarios que salen de la sala
+            "echo-presence:chat.1,leaving" => 'chatLeaving',
         ];
     }
 
@@ -55,6 +70,11 @@ class ChatComponent extends Component
 
     public function getUsersNotificationsProperty(){
         return  $this->chat ? $this->chat->users->where('id', '!=', auth()->id()) : collect();
+    }
+
+    public function getActiveProperty()
+    {
+        return $this->users->contains($this->users_notifications->first()->id);
     }
 
     //Ciclo de vida
@@ -114,6 +134,26 @@ class ChatComponent extends Component
         Notification::send($this->users_notifications, new \App\Notifications\NewMessage());
 
         $this->reset('bodyMessage', 'contactChat');
+    }
+
+    public function chatHere($users)
+    {
+        // dd($event);
+        $this->users = collect($users)->pluck('id');
+    }
+
+    public function chatJoining($user)
+    {
+        //   dd($event);
+        $this->users->push($user['id']);
+    }
+
+    public function chatLeaving($user)
+    {
+        // dd($event);
+        $this->users = $this->users->filter(function ($id) use ($user) {
+            return $id != $user['id'];
+        });
     }
 
     public function render()
