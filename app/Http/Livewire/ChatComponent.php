@@ -57,6 +57,14 @@ class ChatComponent extends Component
         return  $this->chat ? $this->chat->users->where('id', '!=', auth()->id()) : collect();
     }
 
+    //Ciclo de vida
+    public function updatedBodyMessage($value)
+    {
+
+        if ($value) {
+            Notification::send($this->users_notifications, new \App\Notifications\UserTyping($this->chat->id));
+        }
+    }
 
      //Métodos
      public function open_chat_contact(Contact $contact){
@@ -70,6 +78,7 @@ class ChatComponent extends Component
 
         if($chat){
             $this->chat = $chat;
+            $this->chat_id = $chat->id;
             $this->reset('contactChat', 'bodyMessage','search');
            
         }else{
@@ -82,6 +91,7 @@ class ChatComponent extends Component
 
     public function open_chat(Chat $chat){
         $this->chat = $chat;
+        $this->chat_id = $chat->id;
         $this->reset('contactChat', 'bodyMessage');
     }
 
@@ -92,6 +102,7 @@ class ChatComponent extends Component
 
         if(!$this->chat){
             $this->chat = Chat::create();
+            $this->chat_id = $this->chat->id;
             $this->chat->users()->attach([auth()->user()->id, $this->contactChat->contact_id]);
         }
 

@@ -1,4 +1,4 @@
-<div class="bg-gray-50 rounded-lg shadow border border-gray200 overflow-hidden">
+<div x-data="data()" class="bg-gray-50 rounded-lg shadow border border-gray200 overflow-hidden">
 
     <div class="grid grid-cols-3 divide-x divide-orange-200">
 
@@ -120,9 +120,13 @@
 
                         </p>
 
-                        <p class="text-green-600 text-xs">
-                            Online
+                        <p class="text-gray-600 text-xs" x-show="chat_id == typingChatId">
+                            Escribiendo ...
                         </p>
+
+                            <p class="text-green-500 text-xs" x-show="chat_id != typingChatId">
+                                Online
+                            </p>
                     </div>
 
                 </div>
@@ -177,6 +181,25 @@
     </div>
     @push('js')
     <script>
+        function data() {
+                    return {
+                        chat_id: @entangle('chat_id'),
+                        typingChatId: null,
+                        init() {
+
+                            Echo.private('App.Models.User.' + {{ auth()->id() }})
+                                .notification((notification) => {
+                                    if (notification.type == 'App\\Notifications\\UserTyping') {
+                                        this.typingChatId = notification.chat_id;
+                                        setTimeout(() => {
+                                            this.typingChatId = null;
+                                        }, 3000);
+                                    }
+
+                                });
+                        }
+                    }
+                }
         
         Livewire.on('scrollIntoView', function() {
             document.getElementById('final').scrollIntoView(true);
