@@ -5,11 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Contact;
+use App\Models\User;
+use Illuminate\Validation\Rule;
 
 class ContactController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -20,6 +24,8 @@ class ContactController extends Controller
 
     /**
      * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -28,41 +34,94 @@ class ContactController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'email' => [
+                'required',
+                'email',
+                'exists:users',
+                Rule::notIn([auth()->user()->email]),
+            
+            ]
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        $contact = Contact::create([
+            'name' => $request->name,
+            'user_id' => auth()->id(),
+            'contact_id' => $user->id,
+        ]);
+
+        session()->flash('flash.banner', 'El contacto se ha creado correctamente');
+        session()->flash('flash.bannerStyle', 'success');
+
+        return redirect()->route('contacts.edit', $contact);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Contact $contact)
-    {
-        return view('contacts.show', compact('contact'));
-    }
 
     /**
      * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
-    public function edit(string $id)
+    public function edit(Contact $contact)
     {
         return view('contacts.edit', compact('contact'));
     }
 
     /**
      * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Contact $contact)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'email' => [
+                'required',
+                'email',
+                'exists:users',
+                Rule::notIn([auth()->user()->email]),
+            ]
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        $contact->update([
+            'name' => $request->name,
+            'contact_id' => $user->id,
+        ]);
+
+        session()->flash('flash.banner', 'El contacto se actualizó correctamente');
+        session()->flash('flash.bannerStyle', 'success');
+
+        return redirect()->route('contacts.edit', $contact);
     }
 
     /**
      * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
-    public function destroy(string $id)
+    public function destroy(Contact $contact)
     {
-        //
+        $contact->delete();
+
+        session()->flash('flash.banner', 'El contacto se eliminó correctamente');
+        session()->flash('flash.bannerStyle', 'success');
+
+        return redirect()->route('contacts.index');
     }
 }

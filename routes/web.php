@@ -18,8 +18,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware('auth')->resource('contacts', ContactController::class)->names(['contacts']);
-
+Route::middleware('auth')->resource('contacts', ContactController::class)->except(['show']);
 // Route::middleware([
 
 //     'auth:sanctum',
