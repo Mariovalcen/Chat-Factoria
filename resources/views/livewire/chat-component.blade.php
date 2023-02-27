@@ -89,8 +89,27 @@
                 </div>
 
                 <div class="h-[calc(100vh-11rem)] px-3 py-2 overflow-auto">
-                    {{-- Contenido del chat --}}
+                    {{-- El contenido de nuestro chat --}}
+                    @foreach ($this->messages as $message)
+                        
+                        <div class="flex justify-end">
+
+                            <div class="rounded px-3 py-2 bg-orange-100">
+                                <p class="text-sm">
+                                    {{$message->body}}
+                                </p>
+
+                                <p class="text-right' text-xs text-gray-600 mt-1">
+                                    {{$message->created_at->format('d-m-y h:i A')}}
+                                </p>
+                            </div>
+
+                        </div>
+
+                    @endforeach
+
                 </div>
+
 
                 <form class="bg-gray-100 h-16 flex items-center px-4" wire:submit.prevent="sendMessage()">
                     <x-input wire:model="bodyMessage" type="text" class="flex-1"

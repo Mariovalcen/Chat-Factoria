@@ -29,6 +29,13 @@ class ChatComponent extends Component
                 })
                 ->get() ?? [];
     }
+    
+    public function getMessagesProperty(){
+        return $this->chat ? $this->chat->messages()->get() : [];
+        //$this->chat->messages()->get()
+        //Message::where('chat_id', $this->chat->id)->get()
+    }
+
 
      //Métodos
      public function open_chat_contact(Contact $contact){
@@ -42,9 +49,11 @@ class ChatComponent extends Component
 
         if($chat){
             $this->chat = $chat;
+            $this->reset('contactChat', 'bodyMessage');
            
         }else{
             $this->contactChat = $contact;
+            $this->reset('chat', 'bodyMessage');
             
         }
 
