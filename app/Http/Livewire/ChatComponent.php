@@ -6,6 +6,8 @@ use App\Models\Chat;
 use App\Models\Contact;
 use Livewire\Component;
 
+use Illuminate\Support\Facades\Notification;
+
 class ChatComponent extends Component
 {
     public $search;
@@ -38,6 +40,10 @@ class ChatComponent extends Component
 
     public function getChatsProperty(){
         return auth()->user()->chats()->get()->sortByDesc('last_message_at'); 
+    }
+
+    public function getUsersNotificationsProperty(){
+        return  $this->chat ? $this->chat->users->where('id', '!=', auth()->id()) : collect();
     }
 
 
@@ -82,6 +88,8 @@ class ChatComponent extends Component
             'body' => $this->bodyMessage,
             'user_id' => auth()->user()->id
         ]);
+
+        Notification::send($this->users_notifications, new \App\Notifications\NewMessage());
 
         $this->reset('bodyMessage', 'contactChat');
     }
