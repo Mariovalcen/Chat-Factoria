@@ -59,11 +59,10 @@
                 <div class="bg-gray-100 h-16 flex items-center px-3">
                     <figure>
 
-                        @if ($chat)
-                            <img class="w-10 h-10 rounded-full object-cover object-center" src="{{$chat->image}}" alt="{{ $chat->name }}">
-                        @else
+                        
+                        
                             <img class="w-10 h-10 rounded-full object-cover object-center" src="{{$contactChat->user->profile_photo_url}}" alt="{{ $contactChat->name }}">                            
-                        @endif
+                        
 
                     </figure>
 
@@ -83,8 +82,8 @@
                     {{-- Contenido del chat --}}
                 </div>
 
-                <form class="bg-gray-100 h-16 flex items-center px-4">
-                    <x-input type="text" class="flex-1" placeholder="Escriba un mensaje aquí" />
+                <form class="bg-gray-100 h-16 flex items-center px-4" wire:submit.prevent="sendMessage()">
+                    <x-input wire:model="bodyMessage" type="text" class="flex-1" placeholder="Escriba un mensaje aquí" />
 
                     <button class="flex-shrink-0 ml-4 text-2xl text-gray-700">
                         Enviar
