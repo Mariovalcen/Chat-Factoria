@@ -22,7 +22,7 @@ window.Pusher = Pusher;
 
 window.Echo = new Echo({
     broadcaster: 'pusher',
-    key: import.meta.env.VITE_PUSHER_APP_KEY,
+    key: window.PUSHER_APP_KEY,
     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER ?? 'mt1',
     // wsHost: import.meta.env.VITE_PUSHER_HOST ? import.meta.env.VITE_PUSHER_HOST : `ws-${import.meta.env.VITE_PUSHER_APP_CLUSTER}.pusher.com`,
     // wsPort: import.meta.env.VITE_PUSHER_PORT ?? 80,
@@ -30,7 +30,8 @@ window.Echo = new Echo({
     // forceTLS: (import.meta.env.VITE_PUSHER_SCHEME ?? 'https') === 'https',
     // enabledTransports: ['ws', 'wss'],
     wsHost: window.location.hostname,
-    wsPort: 6001,
-    forceTLS: false,
+    wsPort: window.APP_ENV ? 6002 : 6001,
+    wssPort: window.APP_ENV ? 6002 : 6001,
+    forceTLS: window.APP_ENV,
     disableStats: true,
 });
