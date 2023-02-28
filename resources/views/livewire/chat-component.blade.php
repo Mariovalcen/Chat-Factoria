@@ -145,6 +145,8 @@
                         </div>
                     @endforeach
 
+                    <span id="final"></span>
+
                 </div>
 
 
@@ -173,5 +175,15 @@
 
 
     </div>
+
+    @push('js')
+            <script>
+            
+                Livewire.on('scrollIntoView', function() {
+                    document.getElementById('final').scrollIntoView(true);
+                });
+                
+            </script>
+        @endpush
 
 </div>
