@@ -17,5 +17,16 @@ module.exports = {
         },
     },
 
+    theme: {
+        extend: {
+          colors: {
+            naranja: '#FF4700',
+            naranjacomplementario:'#FFA37F',
+            negro: '#020100',
+            gris: '#9C9C9C'
+          },
+        },
+      },
+
     plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
 };

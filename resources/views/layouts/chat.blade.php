@@ -27,7 +27,7 @@
     </head>
     <body class="font-sans antialiased">
 
-        <div class="h-32 bg-orange-500">
+        <div class="h-44 bg-naranja">
         </div>
 
         <div class="absolute left-0 top-6 w-screen">

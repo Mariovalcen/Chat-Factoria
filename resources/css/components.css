@@ -3,7 +3,7 @@
 }
 
 .btn-orange {
-    @apply bg-orange-600 text-white hover:bg-orange-700;
+    @apply bg-naranja text-white hover:bg-naranjacomplementario;
 }
 
 .btn-red {

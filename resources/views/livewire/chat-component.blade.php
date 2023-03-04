@@ -1,24 +1,32 @@
-<div class="bg-gray-50 rounded-lg shadow border border-gray200 overflow-hidden">
+<div class="bg-white rounded-lg shadow border-4 border-naranja overflow-hidden">
 
-    <div class="grid grid-cols-3 divide-x divide-orange-200">
+    <div class="grid grid-cols-3 divide-x divide-naranja">
 
         <div class="col-span-1">
 
-            <div class="bg-gray-100 h-16 flex items-center px-4">
+            <div class="bg-white h-16 flex items-center px-4 pt-1 place-content-between">
 
-                <img class="w-10 h-10 object-cover object-center" src="{{ auth()->user()->profile_photo_url }}"
-                    alt="{{ auth()->user()->name }}">
+                {{-- <img  class="w-10 h-10 object-cover object-center rounded-3xl" src="{{ auth()->user()->profile_photo_url }}"
+                    alt="{{ auth()->user()->name }}"> --}}
+                
+                <p>Hola, {{ auth()->user()->name }}</p>
+
+                <a href="{{ route('contacts.index') }}" class="btn btn-orange text-xs">+ Contactos
+
+                </a>
+             
+
 
             </div>
 
             <div class="bg-white h-14 flex items-center px-4">
 
-                <x-input type="text" wire:model="search" class="w-full"
+                <x-input type="text" wire:model="search" class="w-full focus:border-naranjacomplementario focus:ring-naranjacomplementario"
                     placeholder="Busque un chat o inicie uno nuevo" />
 
             </div>
 
-            <div class="h-[calc(100vh-10.5rem)] overflow-auto border-t border-gray-200">
+            <div class="h-[calc(100vh-10.5rem)] overflow-auto border-t">
                 @if ($this->chats->count() == 0 || $search)
 
                     <div class="px-4 py-3">
@@ -95,7 +103,7 @@
 
             @if ($contactChat || $chat)
 
-                <div class="bg-gray-100 h-16 flex items-center px-3">
+                <div class="bg-white border-black h-16 flex items-center px-3">
 
                     <figure>
 
@@ -132,7 +140,7 @@
                     @foreach ($this->messages as $message)
                         <div class="flex {{ $message->user_id == auth()->id() ? 'justify-end' : '' }} mb-2">
 
-                            <div class="rounded px-3 py-2 {{ $message->user_id == auth()->id() ? 'bg-orange-100' : 'bg-gray-200' }} ">
+                            <div class="rounded px-3 py-2 {{ $message->user_id == auth()->id() ? 'bg-naranjacomplementario' : 'bg-gray-200' }} ">
                                 <p class="text-sm">
                                     {{ $message->body }}
                                 </p>
@@ -150,11 +158,11 @@
                 </div>
 
 
-                <form class="bg-gray-100 h-16 flex items-center px-4" wire:submit.prevent="sendMessage()">
-                    <x-input wire:model="bodyMessage" type="text" class="flex-1"
+                <form class="bg-naranja h-16 flex items-center px-4" wire:submit.prevent="sendMessage()">
+                    <x-input wire:model="bodyMessage" type="text" class="flex-1  focus:border-naranjacomplementario focus:ring-naranjacomplementario"
                         placeholder="Escriba un mensaje aquí" />
 
-                    <button class="flex-shrink-0 ml-4 text-2xl text-gray-700">
+                    <button class="flex-shrink-0 ml-4 text-xl text-white">
                         Enviar
                     </button>
                 </form>
