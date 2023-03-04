@@ -8,20 +8,19 @@
 
                 {{-- <img  class="w-10 h-10 object-cover object-center rounded-3xl" src="{{ auth()->user()->profile_photo_url }}"
                     alt="{{ auth()->user()->name }}"> --}}
-                
-                <p>Hola, {{ auth()->user()->name }}</p>
+
+                <p>Hola, <strong class="text-naranja">{{ auth()->user()->name }}</strong></p>
 
                 <a href="{{ route('contacts.index') }}" class="btn btn-orange text-xs">+ Contactos
 
                 </a>
-             
-
 
             </div>
 
             <div class="bg-white h-14 flex items-center px-4">
 
-                <x-input type="text" wire:model="search" class="w-full focus:border-naranjacomplementario focus:ring-naranjacomplementario"
+                <x-input type="text" wire:model="search"
+                    class="w-full focus:border-naranja focus:ring-naranja"
                     placeholder="Busque un chat o inicie uno nuevo" />
 
             </div>
@@ -30,7 +29,7 @@
                 @if ($this->chats->count() == 0 || $search)
 
                     <div class="px-4 py-3">
-                        <h2 class="text-orange-700 text-lg mb-4">Contáctos</h2>
+                        <h2 class="text-naranja text-lg mb-4">Contáctos</h2>
 
                         <ul class="space-y-4">
                             @forelse ($this->contacts as $contact)
@@ -60,7 +59,6 @@
                         </ul>
                     </div>
                 @else
-
                     @foreach ($this->chats as $chatItem)
                         <div wire:key="chats-{{ $chatItem->id }}" wire:click="open_chat({{ $chatItem }})"
                             class="flex items-center justify-between {{ $chat && $chat->id == $chatItem->id ? 'bg-gray-200' : 'bg-white' }} hover:bg-gray-100 cursor-pointer px-3">
@@ -74,19 +72,19 @@
                             <div class="w-[calc(100%-4rem)] py-4 border-b border-gray-200">
 
                                 <div class="flex justify-between items-center">
-                                     <p>
-                                    {{ $chatItem->name }}
-                                </p>
+                                    <p>
+                                        {{ $chatItem->name }}
+                                    </p>
 
-                                <p class="text-gray-600 text-xs">
-                                    {{ $chatItem->last_message_at->format('h:i A') }}
-                                </p>
+                                    <p class="text-gray-600 text-xs">
+                                        {{ $chatItem->last_message_at->format('h:i A') }}
+                                    </p>
                                 </div>
-                                
+
                                 <p class="text-sm text-gray-700 mt-1 truncate">
                                     {{ $chatItem->messages->last()->body }}
                                 </p>
-                               
+
                             </div>
 
                         </div>
@@ -140,12 +138,14 @@
                     @foreach ($this->messages as $message)
                         <div class="flex {{ $message->user_id == auth()->id() ? 'justify-end' : '' }} mb-2">
 
-                            <div class="rounded px-3 py-2 {{ $message->user_id == auth()->id() ? 'bg-naranjacomplementario' : 'bg-gray-200' }} ">
+                            <div
+                                class="rounded px-3 py-2 {{ $message->user_id == auth()->id() ? 'bg-naranjacomplementario' : 'bg-gray-200' }} ">
                                 <p class="text-sm">
                                     {{ $message->body }}
                                 </p>
 
-                                <p class="{{ $message->user_id == auth()->id() ? 'text-right' : '' }} text-xs text-gray-600 mt-1">
+                                <p
+                                    class="{{ $message->user_id == auth()->id() ? 'text-right' : '' }} text-xs text-gray-600 mt-1">
                                     {{ $message->created_at->format('d-m-y h:i A') }}
                                 </p>
                             </div>
@@ -159,7 +159,8 @@
 
 
                 <form class="bg-naranja h-16 flex items-center px-4" wire:submit.prevent="sendMessage()">
-                    <x-input wire:model="bodyMessage" type="text" class="flex-1  focus:border-naranjacomplementario focus:ring-naranjacomplementario"
+                    <x-input wire:model="bodyMessage" type="text"
+                        class="flex-1  focus:border-naranjacomplementario focus:ring-naranjacomplementario"
                         placeholder="Escriba un mensaje aquí" />
 
                     <button class="flex-shrink-0 ml-4 text-xl text-white">
@@ -185,13 +186,11 @@
     </div>
 
     @push('js')
-            <script>
-            
-                Livewire.on('scrollIntoView', function() {
-                    document.getElementById('final').scrollIntoView(true);
-                });
-                
-            </script>
-        @endpush
+        <script>
+            Livewire.on('scrollIntoView', function() {
+                document.getElementById('final').scrollIntoView(true);
+            });
+        </script>
+    @endpush
 
 </div>

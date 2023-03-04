@@ -20,7 +20,7 @@
                     Nombre de contacto
                 </x-label>
 
-                <x-input type="text" name="name" value="{{ old('name', $contact->name) }}" class="w-full" placeholder="Ingrese el nombre del contacto." />
+                <x-input type="text" name="name" value="{{ old('name', $contact->name) }}" class="w-full focus:border-naranja focus:ring-naranja" placeholder="Ingrese el nombre del contacto." />
 
             </div>
 
@@ -29,7 +29,7 @@
                     Correo electronico
                 </x-label>
 
-                <x-input type="email" name="email" value="{{ old('email', $contact->user->email) }}" class="w-full" placeholder="Ingrese el correo electronico." />
+                <x-input type="email" name="email" value="{{ old('email', $contact->user->email) }}" class="w-full focus:border-naranja focus:ring-naranja" placeholder="Ingrese el correo electronico." />
 
             </div>
 

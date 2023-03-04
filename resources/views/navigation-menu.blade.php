@@ -4,22 +4,26 @@
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
-                <div class="shrink-0 flex items-center">
+                {{-- <div class="shrink-0 flex items-center">
                     <a class="text-white" href="/">
                         FactoriaChat
                     </a>
+                </div> --}}
+
+                <div class="shrink-0 flex items-center">
+                   <p class="text-white">FactoriaChat</p>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link class="text-white border-naranjacomplementario" href="{{ route('contacts.index') }}" :active="request()->routeIs('contacts.*')">
-                        Contactos
-                    </x-nav-link>
-
-                    <x-nav-link class="text-white" href="{{ route('chat.index') }}" :active="request()->routeIs('chat.index')">
+                    
+                    <x-nav-link class="text-white border-none" href="{{ route('chat.index') }}" :active="request()->routeIs('chat.index')">
                         Chat
                     </x-nav-link>
-
+                    
+                    <x-nav-link class="text-white border-none" href="{{ route('contacts.index') }}" :active="request()->routeIs('contacts.*')">
+                        Contactos
+                    </x-nav-link>
                 </div>
             </div>
 
