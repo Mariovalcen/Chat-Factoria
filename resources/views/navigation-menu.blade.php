@@ -144,9 +144,9 @@
     </div>
 
     <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
+    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden bg-white">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link href="{{ route('contacts.index') }}" :active="request()->routeIs('contacts.*')">
+            <x-responsive-nav-link class="bg-white focus:bg-naranjacomplementario border-none text-negro" href="{{ route('contacts.index') }}" :active="request()->routeIs('contacts.*')">
                 Contactos
             </x-responsive-nav-link>
 
