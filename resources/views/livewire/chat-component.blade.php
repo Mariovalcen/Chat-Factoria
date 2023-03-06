@@ -139,7 +139,7 @@
                         <div class="flex {{ $message->user_id == auth()->id() ? 'justify-end' : '' }} mb-2">
 
                             <div
-                                class="rounded px-3 py-2 {{ $message->user_id == auth()->id() ? 'bg-naranjacomplementario' : 'bg-gray-200' }} ">
+                                class="rounded px-3 py-2 {{ $message->user_id == auth()->id() ? 'bg-naranjacomplementario' : 'bg-gray-200' }} " style="max-width: 90%; word-wrap: break-word;">
                                 <p class="text-sm">
                                     {{ $message->body }}
                                 </p>
